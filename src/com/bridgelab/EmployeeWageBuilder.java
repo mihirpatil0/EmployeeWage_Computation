@@ -11,15 +11,19 @@ public class EmployeeWageBuilder
 	final static int EMP_PARTTIME_PRESENT = 1;
 	final static int WAGE_PER_HR = 20;
 	final static int MONTHLY_WORKING_DAY = 20;
+	final static int MAX_HRS_IN_MONTH = 100;
 	
 	static int employeeDailyWage = 0;
 	static int workingHrs = 0;
 	static int employeeMonthlyWage = 0;
+	static int totalWorkingHrs = 0;
+	static int totalWorkingDays = 0;
 	
 	public static void main(String[] args)
 	{
-		for(int day = 1; day <= MONTHLY_WORKING_DAY; day++)
-		{
+		while(totalWorkingHrs < MAX_HRS_IN_MONTH && totalWorkingDays < MONTHLY_WORKING_DAY)
+		{	
+			totalWorkingDays++;
 			/*
 			 *Generating random number using math.random(),
 			 *Converting it to nearest possible integer number using Math.floor(),
@@ -50,7 +54,8 @@ public class EmployeeWageBuilder
 			default:
 				System.out.println("Employee is absent.");
 			}
+			totalWorkingHrs += workingHrs;
 		}
-		System.out.println("\nEmployee monthly wage is : " + employeeMonthlyWage + " Rs.");
+		System.out.println("\nEmployee monthly wage is : " + employeeMonthlyWage + " Rs for " + totalWorkingHrs + " Hr" + " and " + totalWorkingDays + " working days." );
 	}
 }
