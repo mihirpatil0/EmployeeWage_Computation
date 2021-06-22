@@ -7,10 +7,9 @@ package com.bridgelab;
  */
 public class EmployeeWageBuilder
 {	
-	static int EMP_FULLTIME_PRESENT = 2;
-	static int EMP_PARTTIME_PRESENT = 1;
-	static int WAGE_PER_HR = 20;
-	static int DAILY_WORKING_HRS = 8;
+	final static int EMP_FULLTIME_PRESENT = 2;
+	final static int EMP_PARTTIME_PRESENT = 1;
+	final static int WAGE_PER_HR = 20;
 	
 	static int employeeDailyWage = 0;
 	static int workingHrs = 0;
@@ -24,24 +23,25 @@ public class EmployeeWageBuilder
 		*/
 		int employeeChceck =(int) Math.floor(Math.random() * 10) % 3;
 		
-		
-		if(EMP_FULLTIME_PRESENT == employeeChceck)
-		{	
+		switch (employeeChceck)
+		{
+		case EMP_FULLTIME_PRESENT:
+		{
 			workingHrs = 8;
 			System.out.println("Employee is full time present.");
-			employeeDailyWage = WAGE_PER_HR * DAILY_WORKING_HRS;
+			employeeDailyWage = WAGE_PER_HR * workingHrs;
 			System.out.println("Daily wage of an full timer employee is : " + employeeDailyWage + " Rs.");
+			break;
 		}
-		else if (EMP_PARTTIME_PRESENT == employeeChceck)
+		case EMP_PARTTIME_PRESENT:
 		{
 			workingHrs = 4;
 			System.out.println("Employee is part time present.");
 			employeeDailyWage = WAGE_PER_HR * workingHrs;
 			System.out.println("Daily wage of an part timer employee is : " + employeeDailyWage + " Rs.");
+			break;
 		}
-		else
-		{	
-			workingHrs = 0;
+		default:
 			System.out.println("Employee is absent.");
 		}
 	}
