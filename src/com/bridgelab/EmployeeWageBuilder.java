@@ -1,10 +1,12 @@
 package com.bridgelab;
 
-/**
+/*********************************************
  * @author mihir
+ * 
  * With respect to employees attendance,
  * Calculating employee daily and monthly wage.
- */
+ *********************************************/
+
 public class EmployeeWageBuilder
 {	
 	final static int EMP_FULLTIME_PRESENT = 2;
@@ -13,13 +15,24 @@ public class EmployeeWageBuilder
 	final static int MONTHLY_WORKING_DAY = 20;
 	final static int MAX_HRS_IN_MONTH = 100;
 	
-	static int employeeDailyWage = 0;
-	static int workingHrs = 0;
-	static int employeeMonthlyWage = 0;
-	static int totalWorkingHrs = 0;
-	static int totalWorkingDays = 0;
+	int employeeDailyWage = 0;
+	int workingHrs = 0;
+	int employeeMonthlyWage = 0;
+	int totalWorkingHrs = 0;
+	int totalWorkingDays = 0;
 	
-	public static void main(String[] args)
+	/**
+	 * Name : computeEmployeeWage
+	 * 
+	 * Description : Method calculate employee monthly wage.
+	 * 
+	 * Algorithm : First check if employee is full timer, part timer or absent,
+	 * every category has different working hr's and wage per hr,
+	 * monthly wage is calculated only if employee is completing 100 hrs or 20 working days in a month.
+	 * 
+	 * Modification : Last commit 27-June-2021
+	 */
+	public void computeEmployeeWage()
 	{
 		while(totalWorkingHrs < MAX_HRS_IN_MONTH && totalWorkingDays < MONTHLY_WORKING_DAY)
 		{	
@@ -57,5 +70,11 @@ public class EmployeeWageBuilder
 			totalWorkingHrs += workingHrs;
 		}
 		System.out.println("\nEmployee monthly wage is : " + employeeMonthlyWage + " Rs for " + totalWorkingHrs + " Hr" + " and " + totalWorkingDays + " working days." );
+	}
+	
+	public static void main(String[] args)
+	{
+		EmployeeWageBuilder employeeWageBuilderObject = new EmployeeWageBuilder();
+		employeeWageBuilderObject.computeEmployeeWage();
 	}
 }
