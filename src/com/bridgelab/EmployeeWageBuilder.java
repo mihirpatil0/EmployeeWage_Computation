@@ -11,15 +11,6 @@ public class EmployeeWageBuilder
 {	
 	final static int EMP_FULLTIME_PRESENT = 2;
 	final static int EMP_PARTTIME_PRESENT = 1;
-	final static int WAGE_PER_HR = 20;
-	final static int MONTHLY_WORKING_DAY = 20;
-	final static int MAX_HRS_IN_MONTH = 100;
-	
-	int employeeDailyWage = 0;
-	int workingHrs = 0;
-	int employeeMonthlyWage = 0;
-	int totalWorkingHrs = 0;
-	int totalWorkingDays = 0;
 	
 	/**
 	 * Name : computeEmployeeWage
@@ -30,11 +21,13 @@ public class EmployeeWageBuilder
 	 * every category has different working hr's and wage per hr,
 	 * monthly wage is calculated only if employee is completing 100 hrs or 20 working days in a month.
 	 * 
-	 * Modification : Last commit 27-June-2021
+	 * Modification : Last commit 28-June-2021
 	 */
-	public void computeEmployeeWage()
+	public void computeEmployeeWage(String company, int employeeWagePerHr, int daysInMonth, int maxHrsInMonth)
 	{
-		while(totalWorkingHrs < MAX_HRS_IN_MONTH && totalWorkingDays < MONTHLY_WORKING_DAY)
+		int employeeDailyWage = 0, workingHrs = 0, employeeMonthlyWage = 0, totalWorkingHrs = 0, totalWorkingDays = 0;
+		
+		while(totalWorkingHrs < maxHrsInMonth && totalWorkingDays < daysInMonth)
 		{	
 			totalWorkingDays++;
 			/*
@@ -50,7 +43,7 @@ public class EmployeeWageBuilder
 			{
 				workingHrs = 8;
 				System.out.println("Employee is full time present.");
-				employeeDailyWage = WAGE_PER_HR * workingHrs;
+				employeeDailyWage = employeeWagePerHr * workingHrs;
 				System.out.println("Daily wage of an full timer employee is : " + employeeDailyWage + " Rs.");
 				employeeMonthlyWage += employeeDailyWage;
 				break;
@@ -59,7 +52,7 @@ public class EmployeeWageBuilder
 			{
 				workingHrs = 4;
 				System.out.println("Employee is part time present.");
-				employeeDailyWage = WAGE_PER_HR * workingHrs;
+				employeeDailyWage = employeeWagePerHr * workingHrs;
 				System.out.println("Daily wage of an part timer employee is : " + employeeDailyWage + " Rs.");
 				employeeMonthlyWage += employeeDailyWage;
 				break;
@@ -69,12 +62,14 @@ public class EmployeeWageBuilder
 			}
 			totalWorkingHrs += workingHrs;
 		}
-		System.out.println("\nEmployee monthly wage is : " + employeeMonthlyWage + " Rs for " + totalWorkingHrs + " Hr" + " and " + totalWorkingDays + " working days." );
+		System.out.println("\nEmployee monthly wage for company " + company  + " is " + employeeMonthlyWage + " Rs for " + totalWorkingHrs + " Hr" + " and " + totalWorkingDays + " working days.\n" );
 	}
 	
 	public static void main(String[] args)
 	{
-		EmployeeWageBuilder employeeWageBuilderObject = new EmployeeWageBuilder();
-		employeeWageBuilderObject.computeEmployeeWage();
+		EmployeeWageBuilder companyReliance = new EmployeeWageBuilder();
+		companyReliance.computeEmployeeWage("Reliance", 20, 20, 100);
+		EmployeeWageBuilder companyDmart = new EmployeeWageBuilder();
+		companyDmart.computeEmployeeWage("D-mart", 10, 15, 98);
 	}
 }
