@@ -12,6 +12,28 @@ public class EmployeeWageBuilder
 	final static int EMP_FULLTIME_PRESENT = 2;
 	final static int EMP_PARTTIME_PRESENT = 1;
 	
+	private final String company;
+	private final int employeeWagePerHr;
+	private final int daysInMonth;
+	private final int maxHrsInMonth;
+	private int employeeMonthlyWage;
+	
+	/**
+	 * Name : EmployeeWageBuilder ( Constructor )
+	 * 
+	 * @param company
+	 * @param employeeWagePerHr
+	 * @param daysInMonth
+	 * @param maxHrsInMonth
+	 */
+	public EmployeeWageBuilder(String company, int employeeWagePerHr, int daysInMonth, int maxHrsInMonth)
+	{
+		this.company = company;
+		this.employeeWagePerHr = employeeWagePerHr;
+		this.daysInMonth = daysInMonth;
+		this.maxHrsInMonth = maxHrsInMonth;
+	}
+
 	/**
 	 * Name : computeEmployeeWage
 	 * 
@@ -23,9 +45,9 @@ public class EmployeeWageBuilder
 	 * 
 	 * Modification : Last commit 28-June-2021
 	 */
-	public void computeEmployeeWage(String company, int employeeWagePerHr, int daysInMonth, int maxHrsInMonth)
+	public void computeEmployeeWage()
 	{
-		int employeeDailyWage = 0, workingHrs = 0, employeeMonthlyWage = 0, totalWorkingHrs = 0, totalWorkingDays = 0;
+		int employeeDailyWage = 0, workingHrs = 0, totalWorkingHrs = 0, totalWorkingDays = 0;
 		
 		while(totalWorkingHrs < maxHrsInMonth && totalWorkingDays < daysInMonth)
 		{	
@@ -62,14 +84,21 @@ public class EmployeeWageBuilder
 			}
 			totalWorkingHrs += workingHrs;
 		}
-		System.out.println("\nEmployee monthly wage for company " + company  + " is " + employeeMonthlyWage + " Rs for " + totalWorkingHrs + " Hr" + " and " + totalWorkingDays + " working days.\n" );
 	}
 	
+	@Override
+	public String toString()
+	{
+		return "\nTotal employee wage for Company : " + company + " is : " + employeeMonthlyWage + "\n";
+	}
+
 	public static void main(String[] args)
 	{
-		EmployeeWageBuilder companyReliance = new EmployeeWageBuilder();
-		companyReliance.computeEmployeeWage("Reliance", 20, 20, 100);
-		EmployeeWageBuilder companyDmart = new EmployeeWageBuilder();
-		companyDmart.computeEmployeeWage("D-mart", 10, 15, 98);
+		EmployeeWageBuilder companyReliance = new EmployeeWageBuilder("Reliance", 20, 20, 100);
+		EmployeeWageBuilder companyDmart = new EmployeeWageBuilder("D-mart", 10, 15, 98);
+		companyReliance.computeEmployeeWage();
+		System.out.println(companyReliance);
+		companyDmart.computeEmployeeWage();
+		System.out.println(companyDmart);
 	}
 }
