@@ -4,7 +4,8 @@ package com.bridgelab;
  * @author mihir
  * 
  * With respect to employees attendance,
- * Calculating employee daily and monthly wage.
+ * Calculating employee daily and monthly,
+ * wage as per their Company's parameters.
  *********************************************/
 
 public class EmployeeWageBuilder
@@ -12,26 +13,31 @@ public class EmployeeWageBuilder
 	final static int EMP_FULLTIME_PRESENT = 2;
 	final static int EMP_PARTTIME_PRESENT = 1;
 	
-	private final String company;
-	private final int employeeWagePerHr;
-	private final int daysInMonth;
-	private final int maxHrsInMonth;
-	private int employeeMonthlyWage;
+	private int numberOfCompanys = 0;
+	private CompanyEmployeeWage[] companyEmpWageArray;
 	
 	/**
 	 * Name : EmployeeWageBuilder ( Constructor )
-	 * 
-	 * @param company
-	 * @param employeeWagePerHr
-	 * @param daysInMonth
-	 * @param maxHrsInMonth
+	 * Initializing companyEmpWageArray.
 	 */
-	public EmployeeWageBuilder(String company, int employeeWagePerHr, int daysInMonth, int maxHrsInMonth)
+	public EmployeeWageBuilder()
 	{
-		this.company = company;
-		this.employeeWagePerHr = employeeWagePerHr;
-		this.daysInMonth = daysInMonth;
-		this.maxHrsInMonth = maxHrsInMonth;
+		companyEmpWageArray = new CompanyEmployeeWage[5];
+	}
+	
+	private void addCompanyEmpWage(String company, int employeeWagePerHr, int daysInMonth, int maxHrsInMonth)
+	{
+		companyEmpWageArray[numberOfCompanys] = new CompanyEmployeeWage(company, employeeWagePerHr, daysInMonth, maxHrsInMonth);
+		numberOfCompanys ++;
+	}
+	
+	public void computeEmployeeWage()
+	{
+		for(int i = 0; i < numberOfCompanys; i++)
+		{
+			companyEmpWageArray[i].setTotalEmpWage(this.computeEmployeeWage(companyEmpWageArray[i]));
+			System.out.println(companyEmpWageArray[i]);
+		}
 	}
 
 	/**
@@ -45,11 +51,11 @@ public class EmployeeWageBuilder
 	 * 
 	 * Modification : Last commit 28-June-2021
 	 */
-	public void computeEmployeeWage()
+	public int computeEmployeeWage(CompanyEmployeeWage companyEmployeeWage)
 	{
-		int employeeDailyWage = 0, workingHrs = 0, totalWorkingHrs = 0, totalWorkingDays = 0;
+		int workingHrs = 0, totalWorkingHrs = 0, totalWorkingDays = 0;
 		
-		while(totalWorkingHrs < maxHrsInMonth && totalWorkingDays < daysInMonth)
+		while(totalWorkingHrs < companyEmployeeWage.maxHrsInMonth && totalWorkingDays < companyEmployeeWage.daysInMonth)
 		{	
 			totalWorkingDays++;
 			/*
@@ -64,41 +70,27 @@ public class EmployeeWageBuilder
 			case EMP_FULLTIME_PRESENT:
 			{
 				workingHrs = 8;
-				System.out.println("Employee is full time present.");
-				employeeDailyWage = employeeWagePerHr * workingHrs;
-				System.out.println("Daily wage of an full timer employee is : " + employeeDailyWage + " Rs.");
-				employeeMonthlyWage += employeeDailyWage;
 				break;
 			}
 			case EMP_PARTTIME_PRESENT:
 			{
 				workingHrs = 4;
-				System.out.println("Employee is part time present.");
-				employeeDailyWage = employeeWagePerHr * workingHrs;
-				System.out.println("Daily wage of an part timer employee is : " + employeeDailyWage + " Rs.");
-				employeeMonthlyWage += employeeDailyWage;
 				break;
 			}
 			default:
 				System.out.println("Employee is absent.");
 			}
 			totalWorkingHrs += workingHrs;
+			System.out.println("Days : " + totalWorkingDays + " Employee Hr : " + workingHrs);
 		}
-	}
-	
-	@Override
-	public String toString()
-	{
-		return "\nTotal employee wage for Company : " + company + " is : " + employeeMonthlyWage + "\n";
+		return totalWorkingHrs * companyEmployeeWage.employeeWagePerHr;
 	}
 
 	public static void main(String[] args)
 	{
-		EmployeeWageBuilder companyReliance = new EmployeeWageBuilder("Reliance", 20, 20, 100);
-		EmployeeWageBuilder companyDmart = new EmployeeWageBuilder("D-mart", 10, 15, 98);
-		companyReliance.computeEmployeeWage();
-		System.out.println(companyReliance);
-		companyDmart.computeEmployeeWage();
-		System.out.println(companyDmart);
+		EmployeeWageBuilder employeeWageBuilderObject = new EmployeeWageBuilder();
+		employeeWageBuilderObject.addCompanyEmpWage("D-Mart", 20, 20, 100);
+		employeeWageBuilderObject.addCompanyEmpWage("Reliance", 10, 22, 92);
+		employeeWageBuilderObject.computeEmployeeWage();
 	}
 }
